@@ -27,17 +27,24 @@ function Upload() {
     };
     const storageRef = ref(storage, "file-upload/" + file?.name);
     const uploadTask = uploadBytesResumable(storageRef, file, file.type);
-    uploadTask.on("state_changed", (snapshot) => {
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
-      setProgress(progress);
-      progress == 100 &&
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          saveInfo(file, downloadURL);
-        });
-    });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress);
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+        // Optionally display a toast or fallback UI
+      },
+      async () => {
+        // Fires only when the file upload is fully completed
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        console.log("File is fully uploaded. URL:", downloadURL);
+        await saveInfo(file, downloadURL);
+      }
+    );
   };
 
   const saveInfo = async (file, fileUrl) => {
@@ -71,7 +78,7 @@ function Upload() {
         setUploadCompleted(false);
         console.log("FileDocId", fileDocId);
         router.push("/file-preview/" + fileDocId);
-      }, 2000);
+      }, 10000);
   }, [uploadCompleted == true]);
   return (
     <div className="p-5 px-8 md:px-28 text-center">
