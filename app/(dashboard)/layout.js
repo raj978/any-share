@@ -44,7 +44,17 @@ export default function layout({ children }) {
         <TopHeader toggleSideNav={toggleSideNav} />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }

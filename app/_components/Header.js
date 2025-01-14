@@ -43,16 +43,16 @@ function Header() {
                 <li>
                   <a
                     className="text-white transition hover:text-gray-300"
-                    href="#">
-                    About
+                    href="/files">
+                    Files
                   </a>
                 </li>
 
                 <li>
                   <a
                     className="text-white transition hover:text-gray-300"
-                    href="#">
-                    Contact
+                    href="/about">
+                    About Us
                   </a>
                 </li>
               </ul>

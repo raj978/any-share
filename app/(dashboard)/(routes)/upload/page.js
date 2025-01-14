@@ -21,6 +21,7 @@ function Upload() {
   const db = getFirestore(app);
   const [fileDocId, setFileDocId] = useState();
   const [uploadCompleted, setUploadCompleted] = useState(false);
+
   const uploadFile = (file) => {
     const metadata = {
       contentType: file.type,
@@ -78,7 +79,7 @@ function Upload() {
         setUploadCompleted(false);
         console.log("FileDocId", fileDocId);
         router.push("/file-preview/" + fileDocId);
-      }, 10000);
+      }, 2000);
   }, [uploadCompleted == true]);
   return (
     <div className="p-5 px-8 md:px-28 text-center">
